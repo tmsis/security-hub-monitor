@@ -5,9 +5,96 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #1b1b1b;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+div.onesixth,div.twosixths,div.half,div.full {
+  margin-top: 2em;
+}
+div.onesixth,div.twosixths,div.half {
+  display: inline-block;
+  vertical-align: top;
+}
+div.onesixth {
+  width: calc(16.67% - 1.5em);
+  margin-left: 0.5em;
+  margin-right: 1em;
+}
+div.twosixths {
+  width: calc(33.3% - 1em);
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+}
+div.half {
+  width: calc(50% - 1.5em);
+  margin-right: 0.5em;
+  margin-left: 1em;
+}
+div.full {
+  overflow-x: scroll;
+  margin-right: 1em;
+  margin-left: 1em;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 2em;
+  background-color: #d9e8f6;
+  position: relative;
+}
+.field {
+  width: 20em;
+  margin-bottom: 1em;
+  position: relative;
+}
+.field input {
+  width: 100%;
+}
+.field label {
+  display: block;
+  margin-bottom: 0.33em;
+  font-weight: 600;
+}
+button[type="reset"] {
+  background: none;
+  border: none;
+  font-weight: 600;
+  color: #005ea2;
+  cursor: pointer;
+  text-decoration: underline;
+  text-align: right;
+  position: absolute;
+  right: 2em;
+  bottom: 1em;
+  font-size: inherit;
+  padding: 0;
+}
+input[type="search"] {
+  border: 1px solid hsl(0, 0%, 70%);
+  border-radius: 4px;
+  height: 38px;
+  padding: 2px;
+  padding-left: 3em;
+  font-size: inherit;
+  background-image: url(search.svg);
+  background-repeat: no-repeat;
+  background-size: 2em;
+  background-position: center left 8px;
+  font-size: inherit;
+}
+
+.datatable {
+  width: 100%;
+}
+
+.pie > * {
+  height: 100% !important;
+  margin-top: 56px;
 }
