@@ -51,18 +51,24 @@ function App() {
       }
     }
 
-    const titleData = Object.values(data.reduce((r, e) => {
-      const k = `${e.Title}`;
-      if(!r[k]) r[k] = {id: e.Title, value: 1}
-      else r[k].value += 1;
-      return r;
+    const titleData = Object.values(data.reduce((allData, row) => {
+      const title = row.Title;
+      if(!allData[title]) {
+        allData[title] = {id: title, value: 1};
+      } else {
+        allData[title].value += 1;
+      }
+      return allData;
     }, {}));
 
-    const severityData = Object.values(data.reduce((r, e) => {
-      const k = `${e['Severity Label']}`;
-      if(!r[k]) r[k] = {id: e['Severity Label'], value: 1}
-      else r[k].value += 1;
-      return r;
+    const severityData = Object.values(data.reduce((allData, row) => {
+      const label = row['Severity Label'];
+      if(!allData[label]) {
+        allData[label] = {id: label, value: 1};
+      } else {
+        allData[label].value += 1;
+      }
+      return allData;
     }, {}));
 
     const filters = {};
@@ -183,19 +189,25 @@ function App() {
     }
     setFilteredData(filteredData);
 
-    const titleData = Object.values(filteredData.reduce((r, e) => {
-      const k = `${e.Title}`;
-      if(!r[k]) r[k] = {id: e.Title, value: 1}
-      else r[k].value += 1;
-      return r;
+    const titleData = Object.values(filteredData.reduce((allData, row) => {
+      const title = row.Title;
+      if(!allData[title]) {
+        allData[title] = {id: title, value: 1};
+      } else {
+        allData[title].value += 1;
+      }
+      return allData;
     }, {}));
     setTitleData(titleData);
 
-    const severityData = Object.values(filteredData.reduce((r, e) => {
-      const k = `${e['Severity Label']}`;
-      if(!r[k]) r[k] = {id: e['Severity Label'], value: 1}
-      else r[k].value += 1;
-      return r;
+    const severityData = Object.values(filteredData.reduce((allData, row) => {
+      const label = row['Severity Label'];
+      if(!allData[label]) {
+        allData[label] = {id: label, value: 1};
+      } else {
+        allData[label].value += 1;
+      }
+      return allData;
     }, {}));
     setSeverityData(severityData);
   }
