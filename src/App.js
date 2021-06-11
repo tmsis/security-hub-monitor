@@ -24,7 +24,7 @@ function App() {
 
   const processData = dataString => {
     const dataStringLines = dataString.split(/\r\n|\n/);
-    var headers = dataStringLines[0].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
+    const headers = dataStringLines[0].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
 
     const data = [];
     for (let i = 1; i < dataStringLines.length; i++) {
@@ -52,33 +52,31 @@ function App() {
     }
 
     const titleData = Object.values(data.reduce((r, e) => {
-      let k = `${e.Title}`;
+      const k = `${e.Title}`;
       if(!r[k]) r[k] = {id: e.Title, value: 1}
       else r[k].value += 1;
       return r;
     }, {}));
 
     const severityData = Object.values(data.reduce((r, e) => {
-      let k = `${e['Severity Label']}`;
+      const k = `${e['Severity Label']}`;
       if(!r[k]) r[k] = {id: e['Severity Label'], value: 1}
       else r[k].value += 1;
       return r;
     }, {}));
 
-    const filterOptions = {};
-    var filters = {};
-    for (var h = 0; h < headers.length; h++) {
-      var header = headers[h];
+    const filters = {};
+    for (let h = 0; h < headers.length; h++) {
+      const header = headers[h];
       filters[header] = Array.from(new Set(data.map(finding => finding[header])));
       searchArray[header] = [""];
     }
     searchArray['Search'] = [""];
-    for (var f in filters) {
-      if (filters.hasOwnProperty(f)) {
-        filterOptions[f] = filters[f].map(x => {
-          return {label: x, value: x}
-        });
-      }
+    const filterOptions = {};
+    for (let f in filters) {
+      filterOptions[f] = filters[f].map(x => {
+        return {label: x, value: x}
+      });
     }
 
     // prepare columns list from headers
@@ -145,8 +143,8 @@ function App() {
 
 
   const handleFilters = (e,o) => {
-    var name = o ? o.name : e.target.name;
-    var vals = o ? e : [e.target];
+    const name = o ? o.name : e.target.name;
+    const vals = o ? e : [e.target];
     searchArray[name] = vals.map(v => v.value);
     setSearchArray(searchArray);
     searchData();
@@ -154,16 +152,16 @@ function App() {
 
 
   const searchData = () => {
-    var filteredData = data;
-    var firstFilter = false;
-    for (var h = 0; h < headers.length; h++) {
-      var field = headers[h];
-      var filteredDataThisField = [];
-      for (var v = 0; v < searchArray[field].length; v++) {
-        var value = searchArray[field][v].toLowerCase();
+    let filteredData = data;
+    let firstFilter = false;
+    for (let h = 0; h < headers.length; h++) {
+      const field = headers[h];
+      let filteredDataThisField = [];
+      for (let v = 0; v < searchArray[field].length; v++) {
+        const value = searchArray[field][v].toLowerCase();
         if (!value) continue;
         firstFilter = true;
-        var results = filteredData.filter(d => d[field].toLowerCase().includes(value));
+        const results = filteredData.filter(d => d[field].toLowerCase().includes(value));
         filteredDataThisField = filteredDataThisField.concat(results);
       }
       if (firstFilter) {
@@ -173,28 +171,28 @@ function App() {
         filteredData = filteredData.concat(filteredDataThisField);
       }
     }
-    var searchValue = searchArray['Search'][0].toLowerCase();
+    const searchValue = searchArray['Search'][0].toLowerCase();
     if (searchValue) {
-      var searchedData = [];
-      for (var h = 0; h < headers.length; h++) {
-        var field = headers[h];
-        var filteredDataThisField = filteredData.filter(d => d[field].toLowerCase().includes(searchValue));
+      let searchedData = [];
+      for (let h = 0; h < headers.length; h++) {
+        const field = headers[h];
+        let filteredDataThisField = filteredData.filter(d => d[field].toLowerCase().includes(searchValue));
         searchedData = searchedData.concat(filteredDataThisField);
       }
       filteredData = searchedData;
     }
     setFilteredData(filteredData);
 
-    var titleData = Object.values(filteredData.reduce((r, e) => {
-      let k = `${e.Title}`;
+    const titleData = Object.values(filteredData.reduce((r, e) => {
+      const k = `${e.Title}`;
       if(!r[k]) r[k] = {id: e.Title, value: 1}
       else r[k].value += 1;
       return r;
     }, {}));
     setTitleData(titleData);
 
-    var severityData = Object.values(filteredData.reduce((r, e) => {
-      let k = `${e['Severity Label']}`;
+    const severityData = Object.values(filteredData.reduce((r, e) => {
+      const k = `${e['Severity Label']}`;
       if(!r[k]) r[k] = {id: e['Severity Label'], value: 1}
       else r[k].value += 1;
       return r;
