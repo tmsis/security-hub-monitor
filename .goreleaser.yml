@@ -1,0 +1,36 @@
+env:
+  - GO111MODULE=on
+before:
+  hooks:
+    - go mod download
+builds:
+- id: "server"
+  env:
+    - CGO_ENABLED=0
+  goos:
+    - darwin
+    - linux
+    - windows
+  goarch:
+    - amd64
+  main: server.go
+  binary: build/server-{{.Os}}
+  hooks:
+    post: ./dist.sh {{ .Path }}
+archives:
+  -
+    replacements:
+      darwin: Darwin
+      linux: Linux
+      amd64: x86_64
+checksum:
+  name_template: 'checksums.txt'
+  algorithm: sha256
+snapshot:
+  name_template: "git-{{ .ShortCommit }}"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
