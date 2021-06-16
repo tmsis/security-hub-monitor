@@ -1,7 +1,3 @@
-// https://www.cluemediator.com/read-csv-file-in-react
-// https://www.npmjs.com/package/react-data-table-component
-// https://nivo.rocks/pie/
-
 import React, { useState } from 'react';
 import { ResponsivePie } from '@nivo/pie'
 import * as XLSX from 'xlsx';
@@ -17,7 +13,7 @@ function App() {
   const [titleData, setTitleData] = useState([]);
   const [severityColumns, setSeverityColumns] = useState([]);
   const [severityData, setSeverityData] = useState([]);
-  const [filterOptions, setFilterOptions] = useState([]);
+  const [filterOptions, setFilterOptions] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const [searchArray, setSearchArray] = useState({});
 
@@ -310,19 +306,21 @@ function App() {
   };
 
 
-  // const Filter = (name) = {
-  //   return (
-  //     <label htmlFor="{name}">{name}:</label>
-  //     <Select
-  //       isMulti
-  //       name={name}
-  //       options={filterOptions[{name}]}
-  //       className="basic-multi-select"
-  //       classNamePrefix="select"
-  //       onChange={handleFilters}
-  //     />
-  //   )
-  // }
+  const Filter = ({name}) => {
+    return (
+      <div className="field">
+        <label htmlFor={name}>{name}:</label>
+        <Select
+          isMulti
+          name={name}
+          options={filterOptions[name]}
+          className="basic-multi-select"
+          classNamePrefix="select"
+          onChange={handleFilters}
+        />
+      </div>
+    )
+  }
 
 
   return (
@@ -347,72 +345,12 @@ function App() {
             onChange={handleFilters}
           />
         </div>
-        <div className="field">
-          <label htmlFor="Team">Team:</label>
-          <Select
-            isMulti
-            name="Team"
-            options={filterOptions["Team"]}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleFilters}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="AWS Account ID">AWS Account ID:</label>
-          <Select
-            isMulti
-            name="AWS Account ID"
-            options={filterOptions["AWS Account ID"]}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleFilters}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="Compliance Status">Compliance Status:</label>
-          <Select
-            isMulti
-            name="Compliance Status"
-            options={filterOptions["Compliance Status"]}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleFilters}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="Severity">Severity:</label>
-          <Select
-            isMulti
-            name="Severity Label"
-            options={filterOptions["Severity Label"]}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleFilters}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="Resource Type">Resource Type:</label>
-          <Select
-            isMulti
-            name="Resource Type"
-            options={filterOptions['Resource Type']}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleFilters}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="Record State">Record State:</label>
-          <Select
-            isMulti
-            name="Record State"
-            options={filterOptions["Record State"]}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleFilters}
-          />
-        </div>
+        <Filter name="Team"/>
+        <Filter name="AWS Account ID"/>
+        <Filter name="Compliance Status"/>
+        <Filter name="Severity Label"/>
+        <Filter name="Resource Type"/>
+        <Filter name="Record State"/>
         <button type="reset">Reset</button>
       </form>
 
