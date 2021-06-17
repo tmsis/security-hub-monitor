@@ -26,6 +26,14 @@ jobs:
         key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/.pre-commit-config.yaml') }}
     - name: run pre-commit
       uses: pre-commit/action@v2.0.3
+    - name: Set up node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '15.x'
+    - run: npm i
+    - run: npm run test -- --coverage
+      env:
+        CI: true
     - name: goreleaser snapshot build
       uses: goreleaser/goreleaser-action@v2
       with:

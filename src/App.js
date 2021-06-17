@@ -25,14 +25,14 @@ function App() {
     const data = [];
     for (let i = 1; i < dataStringLines.length; i++) {
       const row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
-      if (headers && row.length == headers.length) {
+      if (headers && row.length === headers.length) {
         const obj = {};
         for (let j = 0; j < headers.length; j++) {
           let d = row[j];
           if (d.length > 0) {
-            if (d[0] == '"')
+            if (d[0] === '"')
               d = d.substring(1, d.length - 1);
-            if (d[d.length - 1] == '"')
+            if (d[d.length - 1] === '"')
               d = d.substring(d.length - 2, 1);
           }
           if (headers[j]) {
@@ -209,7 +209,7 @@ function App() {
   }
 
 
-  const MyResponsivePie = ({}) => (
+  const MyResponsivePie = () => (
     <ResponsivePie
       data={severityData}
       innerRadius={0.5}
@@ -218,10 +218,11 @@ function App() {
       // colors={{ scheme: 'yellow_orange_red' }}
       colors={(d) =>{
         switch(d.id) {
-          case 'LOW': return '#ffffcc'; break;
-          case 'MEDIUM': return '#ffeda0'; break;
-          case 'HIGH': return '#fed976'; break;
+          case 'LOW': return '#ffffcc';
+          case 'MEDIUM': return '#ffeda0';
+          case 'HIGH': return '#fed976';
           case 'CRITICAL': return '#feb24c';
+          default:
         }
       }}
       borderWidth={1}
