@@ -14,6 +14,7 @@ function App() {
   const [severityColumns, setSeverityColumns] = useState([]);
   const [severityData, setSeverityData] = useState([]);
   const [filterOptions, setFilterOptions] = useState({});
+  const [filterSelections, setFilterSelections] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const [searchArray, setSearchArray] = useState({});
 
@@ -148,10 +149,11 @@ function App() {
     const name = o ? o.name : e.target.name;
     const vals = o ? e : [e.target];
     searchArray[name] = vals.map(v => v.value);
+    filterSelections[name] = vals;
+    setFilterSelections(filterSelections);
     setSearchArray(searchArray);
     searchData();
   }
-
 
   const searchData = () => {
     let filteredData = data;
@@ -306,7 +308,6 @@ function App() {
     );
   };
 
-
   const Filter = ({name}) => {
     return (
       <div className="field">
@@ -317,11 +318,12 @@ function App() {
           options={filterOptions[name]}
           className="basic-multi-select"
           classNamePrefix="select"
+          value={filterSelections[name]}
           onChange={handleFilters}
         />
       </div>
-    )
-  }
+    );
+  };
 
 
   return (
