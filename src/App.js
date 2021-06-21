@@ -1,7 +1,3 @@
-// https://www.cluemediator.com/read-csv-file-in-react
-// https://www.npmjs.com/package/react-data-table-component
-// https://nivo.rocks/pie/
-
 import React, { useState } from 'react';
 import { ResponsivePie } from '@nivo/pie'
 import * as XLSX from 'xlsx';
@@ -17,7 +13,8 @@ function App() {
   const [titleData, setTitleData] = useState([]);
   const [severityColumns, setSeverityColumns] = useState([]);
   const [severityData, setSeverityData] = useState([]);
-  const [filterOptions, setFilterOptions] = useState([]);
+  const [filterOptions, setFilterOptions] = useState({});
+  const [filterSelections, setFilterSelections] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const [searchArray, setSearchArray] = useState({});
 
@@ -29,14 +26,14 @@ function App() {
     const data = [];
     for (let i = 1; i < dataStringLines.length; i++) {
       const row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
-      if (headers && row.length == headers.length) {
+      if (headers && row.length === headers.length) {
         const obj = {};
         for (let j = 0; j < headers.length; j++) {
           let d = row[j];
           if (d.length > 0) {
-            if (d[0] == '"')
+            if (d[0] === '"')
               d = d.substring(1, d.length - 1);
-            if (d[d.length - 1] == '"')
+            if (d[d.length - 1] === '"')
               d = d.substring(d.length - 2, 1);
           }
           if (headers[j]) {
@@ -50,26 +47,6 @@ function App() {
         }
       }
     }
-
-    const titleData = Object.values(data.reduce((allData, row) => {
-      const title = row.Title;
-      if(!allData[title]) {
-        allData[title] = {id: title, value: 1};
-      } else {
-        allData[title].value += 1;
-      }
-      return allData;
-    }, {}));
-
-    const severityData = Object.values(data.reduce((allData, row) => {
-      const label = row['Severity Label'];
-      if(!allData[label]) {
-        allData[label] = {id: label, value: 1};
-      } else {
-        allData[label].value += 1;
-      }
-      return allData;
-    }, {}));
 
     const filters = {};
     for (let h = 0; h < headers.length; h++) {
@@ -119,14 +96,12 @@ function App() {
     ];
     setData(data);
     setSearchArray(searchArray);
-    setFilteredData(data);
-    setTitleData(titleData);
-    setSeverityData(severityData);
     setHeaders(headers);
     setColumns(columns);
     setTitleColumns(titleColumns);
     setSeverityColumns(severityColumns);
     setFilterOptions(filterOptions);
+    processFilteredData(data);
   }
 
 
@@ -152,6 +127,8 @@ function App() {
     const name = o ? o.name : e.target.name;
     const vals = o ? e : [e.target];
     searchArray[name] = vals.map(v => v.value);
+    filterSelections[name] = vals;
+    setFilterSelections(filterSelections);
     setSearchArray(searchArray);
     searchData();
   }
@@ -177,6 +154,11 @@ function App() {
         filteredData = filteredData.concat(filteredDataThisField);
       }
     }
+    processFilteredData(filteredData);
+  }
+
+
+  const processFilteredData = (filteredData) => {
     const searchValue = searchArray['Search'][0].toLowerCase();
     if (searchValue) {
       let searchedData = [];
@@ -213,7 +195,7 @@ function App() {
   }
 
 
-  const MyResponsivePie = ({}) => (
+  const MyResponsivePie = () => (
     <ResponsivePie
       data={severityData}
       innerRadius={0.5}
@@ -222,10 +204,11 @@ function App() {
       // colors={{ scheme: 'yellow_orange_red' }}
       colors={(d) =>{
         switch(d.id) {
-          case 'LOW': return '#ffffcc'; break;
-          case 'MEDIUM': return '#ffeda0'; break;
-          case 'HIGH': return '#fed976'; break;
+          case 'LOW': return '#ffffcc';
+          case 'MEDIUM': return '#ffeda0';
+          case 'HIGH': return '#fed976';
           case 'CRITICAL': return '#feb24c';
+          default:
         }
       }}
       borderWidth={1}
@@ -309,20 +292,22 @@ function App() {
     );
   };
 
-
-  // const Filter = (name) = {
-  //   return (
-  //     <label htmlFor="{name}">{name}:</label>
-  //     <Select
-  //       isMulti
-  //       name={name}
-  //       options={filterOptions[{name}]}
-  //       className="basic-multi-select"
-  //       classNamePrefix="select"
-  //       onChange={handleFilters}
-  //     />
-  //   )
-  // }
+  const Filter = ({name}) => {
+    return (
+      <div className="field">
+        <label htmlFor={name}>{name}:</label>
+        <Select
+          isMulti
+          name={name}
+          options={filterOptions[name]}
+          className="basic-multi-select"
+          classNamePrefix="select"
+          value={filterSelections[name]}
+          onChange={handleFilters}
+        />
+      </div>
+    );
+  };
 
 
   return (
@@ -347,72 +332,12 @@ function App() {
             onChange={handleFilters}
           />
         </div>
-        <div className="field">
-          <label htmlFor="Team">Team:</label>
-          <Select
-            isMulti
-            name="Team"
-            options={filterOptions["Team"]}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleFilters}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="AWS Account ID">AWS Account ID:</label>
-          <Select
-            isMulti
-            name="AWS Account ID"
-            options={filterOptions["AWS Account ID"]}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleFilters}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="Compliance Status">Compliance Status:</label>
-          <Select
-            isMulti
-            name="Compliance Status"
-            options={filterOptions["Compliance Status"]}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleFilters}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="Severity">Severity:</label>
-          <Select
-            isMulti
-            name="Severity Label"
-            options={filterOptions["Severity Label"]}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleFilters}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="Resource Type">Resource Type:</label>
-          <Select
-            isMulti
-            name="Resource Type"
-            options={filterOptions['Resource Type']}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleFilters}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="Record State">Record State:</label>
-          <Select
-            isMulti
-            name="Record State"
-            options={filterOptions["Record State"]}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleFilters}
-          />
-        </div>
+        <Filter name="Team"/>
+        <Filter name="AWS Account ID"/>
+        <Filter name="Compliance Status"/>
+        <Filter name="Severity Label"/>
+        <Filter name="Resource Type"/>
+        <Filter name="Record State"/>
         <button type="reset">Reset</button>
       </form>
 

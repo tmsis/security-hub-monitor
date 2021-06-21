@@ -1,8 +1,11 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
+import "@testing-library/jest-dom";
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders our form', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+  expect(screen.getByRole("searchbox", { })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: /all findings/i})).toBeInTheDocument();
 });
