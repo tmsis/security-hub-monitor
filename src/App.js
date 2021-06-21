@@ -48,26 +48,6 @@ function App() {
       }
     }
 
-    const titleData = Object.values(data.reduce((allData, row) => {
-      const title = row.Title;
-      if(!allData[title]) {
-        allData[title] = {id: title, value: 1};
-      } else {
-        allData[title].value += 1;
-      }
-      return allData;
-    }, {}));
-
-    const severityData = Object.values(data.reduce((allData, row) => {
-      const label = row['Severity Label'];
-      if(!allData[label]) {
-        allData[label] = {id: label, value: 1};
-      } else {
-        allData[label].value += 1;
-      }
-      return allData;
-    }, {}));
-
     const filters = {};
     for (let h = 0; h < headers.length; h++) {
       const header = headers[h];
@@ -116,14 +96,12 @@ function App() {
     ];
     setData(data);
     setSearchArray(searchArray);
-    setFilteredData(data);
-    setTitleData(titleData);
-    setSeverityData(severityData);
     setHeaders(headers);
     setColumns(columns);
     setTitleColumns(titleColumns);
     setSeverityColumns(severityColumns);
     setFilterOptions(filterOptions);
+    processFilteredData(data);
   }
 
 
@@ -155,6 +133,7 @@ function App() {
     searchData();
   }
 
+
   const searchData = () => {
     let filteredData = data;
     let firstFilter = false;
@@ -175,6 +154,11 @@ function App() {
         filteredData = filteredData.concat(filteredDataThisField);
       }
     }
+    processFilteredData(filteredData);
+  }
+
+
+  const processFilteredData = (filteredData) => {
     const searchValue = searchArray['Search'][0].toLowerCase();
     if (searchValue) {
       let searchedData = [];
