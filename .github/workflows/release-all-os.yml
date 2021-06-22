@@ -34,15 +34,20 @@ jobs:
           args: release --snapshot --rm-dist
       - name: set up Git
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR_NAME: "robot-mac-fc"
+          GITHUB_ACTOR_EMAIL: "mac-fc-infra@truss.works"
         run: |
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-      - name: commit and push changes
+          git config user.name "${GITHUB_ACTOR_NAME}"
+          git config user.email "${GITHUB_ACTOR_EMAIL}"
+      - name: commit changes
         run: |
           git add .
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
             git commit -m 'Publish release'
-            git push
           fi
+      - name: Push to protected branch
+        uses: CasperWA/push-protected@v2
+        with:
+          token: ${{ secrets.ROBOT_MAC_FC_TOKEN }}
+          branch: ${{ github.ref }}
+          unprotect_reviews: true

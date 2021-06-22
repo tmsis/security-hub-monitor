@@ -1,6 +1,9 @@
 name: validate
 on:
   pull_request:
+  push:
+    branches:
+      - 'push-action/**'
 
 
 jobs:
