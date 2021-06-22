@@ -11,10 +11,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: reattach HEAD to Head Ref
-        # b/c checkout action leaves in detached head state https://github.com/actions/checkout/issues/6
-        run: git checkout "$(echo ${{ github.head_ref }})"
-        if: github.head_ref != ''
+        with:
+          token: ${{ secrets.ROBOT_MAC_FC_TOKEN }}
       - name: Set up node.js
         uses: actions/setup-node@v1
         with:
@@ -35,12 +33,11 @@ jobs:
       - name: set up Git
         env:
           GITHUB_TOKEN: ${{ secrets.ROBOT_MAC_FC_TOKEN }}
-          GITHUB_ACTOR_NAME: "robot-mac-fc"
-          GITHUB_ACTOR_EMAIL: "mac-fc-infra@truss.works"
+          GITHUB_ACTOR_NAME: "@robot-mac-fc"
+          GITHUB_ACTOR_EMAIL: "robot-mac-fc@users.noreply.github.com"
         run: |
-          git config user.name "${GITHUB_ACTOR_NAME}"
-          git config user.email "${GITHUB_ACTOR_EMAIL}"
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git config --global user.name "${GITHUB_ACTOR_NAME}"
+          git config --global user.email "${GITHUB_ACTOR_EMAIL}"
       - name: commit and push changes
         run: |
           git add .
