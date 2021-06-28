@@ -294,7 +294,7 @@ function App() {
 
   const Filter = ({name}) => {
     return (
-      <div className="field">
+      <div className="field onequarter">
         <label htmlFor={name}>{name}:</label>
         <Select
           isMulti
@@ -313,7 +313,7 @@ function App() {
   return (
     <div>
       <form id="form">
-        <div className="field">
+        <div className="field onequarter">
           <label htmlFor="File">File:</label>
           <input
             type="file"
@@ -323,7 +323,7 @@ function App() {
             name="File"
           />
         </div>
-        <div className="field">
+        <div className="field onequarter">
           <label htmlFor="Search">Search:</label>
           <input
             type="search"
