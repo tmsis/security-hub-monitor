@@ -8,10 +8,13 @@ repos:
     rev: v3.4.0
     hooks:
       - id: check-json
+        exclude: ^build/
       - id: check-merge-conflict
       - id: check-yaml
+        exclude: ^build/
       - id: detect-private-key
       - id: trailing-whitespace
+        exclude: ^build/
 
   - repo: git://github.com/igorshubovych/markdownlint-cli
     rev: v0.26.0

@@ -13,12 +13,15 @@ code {
     monospace;
 }
 
-div.onesixth,div.twosixths,div.half,div.full {
+div.onesixth,div.twosixths,div.half,div.onequarter,div.full {
   margin-top: 2em;
-}
-div.onesixth,div.twosixths,div.half {
   display: inline-block;
   vertical-align: top;
+}
+div.onequarter {
+  width: calc(25% - 1.5em);
+  margin-left: 0.5em;
+  margin-right: 1em;
 }
 div.onesixth {
   width: calc(16.67% - 1.5em);
@@ -42,16 +45,12 @@ div.full {
 }
 
 form {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
   padding: 2em;
+  padding-bottom: 4em;
   background-color: #d9e8f6;
   position: relative;
 }
 .field {
-  width: 20em;
-  margin-bottom: 1em;
   position: relative;
 }
 .field input {
@@ -71,8 +70,8 @@ button[type="reset"] {
   text-decoration: underline;
   text-align: right;
   position: absolute;
-  right: 2em;
-  bottom: 1em;
+  right: 3em;
+  bottom: 1.5em;
   font-size: inherit;
   padding: 0;
 }
