@@ -202,8 +202,9 @@ function App() {
       padAngle={0.7}
       cornerRadius={3}
       // colors={{ scheme: 'yellow_orange_red' }}
-      colors={(d) =>{
+      colors={(d) => {
         switch(d.id) {
+          case 'INFORMATIONAL': return '#fffff0';
           case 'LOW': return '#ffffcc';
           case 'MEDIUM': return '#ffeda0';
           case 'HIGH': return '#fed976';
