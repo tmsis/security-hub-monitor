@@ -6,7 +6,7 @@
     "@nivo/core": "^0.70.0",
     "@nivo/pie": "^0.70.0",
     "react": "^16.13.1",
-    "react-data-table-component": "^6.11.2",
+    "react-data-table-component": "^7.6.2",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
     "react-select": "^4.3.1",
